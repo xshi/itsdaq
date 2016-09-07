@@ -24,7 +24,7 @@ fi
 case $option in
 
     1) echo "fit current dose shape..."
-       ./python/fit_current_dose.py  
+       root -l fit/current_dose_temp.cc 
        ;;
     
 esac
