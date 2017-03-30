@@ -9,7 +9,8 @@ usage() {
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
     printf "\nOPTIONS\n" 
-    printf "\n\t%-9s  %-40s"  "1"      "fit current dose shape"
+    printf "\n\t%-9s  %-40s"  "1"  "fit current dose shape"
+    printf "\n\t%-9s  %-40s"  "2"  "roofit current dose shape"
     printf "\n\n" 
 }
 
@@ -25,6 +26,9 @@ case $option in
 
     1) echo "fit current dose shape..."
        root -l fit/current_dose_temp.cc 
+       ;;
+    2) echo "roofit current dose shape..."
+       root -l fit/rf_current_dose_temp.cc 
        ;;
     
 esac
