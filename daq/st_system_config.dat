@@ -1,0 +1,71 @@
+	ST Configuration file: example 26.07.2002
+	=========================================
+
+        This defines the mapping for connection to a module
+        Lines that don't start "Module" are ignored
+        After the Module string there are a series of fields
+
+	id         ID of module in map
+        pr         This module is present (usually 1)
+        ac         Active in scans
+	LV cr      Crate in which to find LV 
+	LV ch      LV Channel within the crate
+ 	HV id      ID of HV card?
+	HV ch      Channel within HV card
+        SLOG id    ID of slog to use for transmission
+        SLOG clk0  Channel for clock 0    (data clock)
+        SLOG clk1  Channel for clock 1    (BC clock)
+        SLOG com0  Channel for command 0  (Command)
+        SLOG com1  Channel for command 1  (L1)
+        SLOG com2  Channel for command 2  (Reset)
+        Mus id     ID of MuSTARD to use for data reception
+        Mus s0     Stream in MuSTARD for column 0
+        Mus s1     Stream in MuSTARD for column 1
+        Mus d0     Delay in MuSTARD for column 0
+        Mus d1     Delay in MuSTARD for column 1
+	FileName   Base of filename to find individual configuration (see below)
+	DevType    Type of device
+
+        The module configuration is read from a file in the following order
+          sctdaq/config/$filename.det
+          sctdaq/config/default$id.det
+          sctdaq/config/default.det
+
+# The following line configures the ethernet connection to the HSIO board.
+# To use, remove the "#  " and change the number in {} to match the device
+# in the pcap error report on boot.
+# DAQ pcap {3D38AF36-47F3-412E-8BD8-6A0A6FDDCD04} e0:dd:cc:bb:aa:00
+DAQ pcap {CDCDC245-FF0C-41AD-A11D-DDB04F118A53}  e0:dd:cc:bb:aa:00
+# The default on Linux is the equivalent of:
+#  DAQ file /tmp/hsioPipe.fromHsio tmp/hsioPipe.toHsio
+
+        DETECTOR  LV     HV     SLOG                    MuSTARD         Module
+        id pr ac  cr ch  id ch  id ck0 ck1 cm0 cm1 cm2  id s0 s1 d0 d1  Filename       Device Type
+        --------------------------------------------------------------------------------
+# Hybrid
+#Module  0  1  1   0  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  ABCNx20_1 ABCN_Test
+#Module  0  1  1   -1  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  FPGAChip ABCN_Test
+
+# Single chip test board 1
+#Module  0  1  1   -1  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  ABCNx1_01 ABCN_Test
+# Single chip test board 1
+#Module  1  1  1   -1  0  -1  0   0   4   5   4   7   5   0  4  5 22 22  ABCNx1_01 ABCN_Test
+  
+#  Module  1  1  1   -1  1  -1  1   0   2   3   2   3   7   0  0  1 20 20  20220170112345 ABCN_Test
+#  Module  2  1  1   -1  2  -1  2   0   4   5   4   5   8   0  0  1 20 20  20220170112345 ABCN_Test
+
+# SEU hybrid with ATLYS
+# Module   0	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2 3  25  25  ABC130_HCC_SEU ABC130_Test
+
+Module   0	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  28 29  25  25  ABC130_Sim ABC130_Test
+Module   1	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  30 31  25  25  ABC130_Sim ABC130_Test
+Module   2	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  32 33  25  25  ABC130_Sim ABC130_Test
+Module   3	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  34 35  25  25  ABC130_Sim ABC130_Test
+Module   4	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  36 37  25  25  ABC130_Sim ABC130_Test
+Module   5	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  38 39  25  25  ABC130_Sim ABC130_Test
+
+
+
+# ABC130 Wafer Probe (ATLYS)
+# Module   0	1	  1   -1 -1  -1  0   0   0   1   1   0   3   0  8  2  40  0  ABC130_DUT ABC130_Test
+/*END*/

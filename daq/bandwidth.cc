@@ -5,12 +5,16 @@
 // Original Author:  SHI Xin <shixin@ihep.ac.cn>
 //         Created:  [2017-03-30 Thu 10:37] 
 //
+
 // Borrowed code from Matt Warren and Liejian Chen 
 //  
 // To use this code: 
 // [].L macros/bandwidth.cc 
 // [] bandwidthtest()
 
+// 
+// Log 
+// 2017.04.19 Bruce Added runWithBurstManager  
 
 // Tests 
 
@@ -22,6 +26,17 @@ void bandwidthtest(){
     e->DAQStatus();
 }
 
+int abc130_DropPacket() {
+  uint16_t opcode=0xd008;
+  uint16_t seqnum;
+  uint16_t length;
+  uint16_t *recv_data;
+
+  e->HsioReceiveOpcode(opcode, seqnum, length, recv_data);
+
+  if(opcode == 0) { printf("Timeout, no more data\n"); return 1; }
+  return 0;
+}
 
 // Functions 
 void Matt_DataGenTest(unsigned int dg_mode = 3,
@@ -42,9 +57,13 @@ void Matt_DataGenTest(unsigned int dg_mode = 3,
         printf("DG source too large!!!!\n");
     }
 
+  int drop_count = 0;
+
     //Internal Trigger
     if (trigs > 0) {
         Matt_TrigBurst(freqid, trigs, bursts);
+// while(!abc130_DropPacket())
+   // drop_count++;
         e->Sleep(freqid*trigs*(bursts+1)/100);
     }
     else {
@@ -54,6 +73,8 @@ void Matt_DataGenTest(unsigned int dg_mode = 3,
         e->ConfigureVariable(10000, 0x0000);     // PMOD-TTC trig input disable (TRIG0) 
     }
     Matt_ConfStream( (strmmode*0x100) + ((dg_src+4)*2) + 0, first_stream,  n_streams, 0);
+
+  printf("Finished, dropping %d packets\n", drop_count);
 }
 
 void Matt_ConfStream( unsigned int strmconf = 0x11, 
@@ -316,4 +337,55 @@ void streamConfigRead(uint16_t mask0 = 0xffff, uint16_t mask1 = 0xffff, uint16_t
         }
         printf("\n");
     }
+}
+
+
+void runWithBurstManager() {
+    unsigned int dg_mode = 3;
+    unsigned int dg_src =  0;
+    unsigned int strmmode = 0x1;
+
+    e->ConfigureVariable(10036+dg_src, (dg_mode*0x10)+strmmode); 
+    int first_stream = 0;
+    int n_streams = 144;  // max streams in firmware 
+    Matt_ConfStream( (strmmode*0x100)+((dg_src+4)*2), first_stream,  n_streams, 0);
+    printf("DG Reg %d set to 0x%x\n", 36+dg_src, (dg_mode*0x10)+strmmode);
+
+    // Run burster in firmware
+    // Count of executions of the burster
+    e->burst_ntrigs=1;
+    e->burst_maxtrigs=10000;
+
+    // Just run outer loop at 2.5kHz
+    //uint16_t nt = 183; // Triggers per "burst" (-1)
+    //uint16_t nb = 3000;   // Bursts of triggers (-1)
+
+    uint16_t nt = 10; // Triggers per "burst" (-1)
+    uint16_t nb = 3;   // Bursts of triggers (-1)
+    uint16_t rmin = 1; // Min randomiser (400ns steps)
+    uint16_t rmax = 1; // Max randomiser   "    "
+    uint16_t inter = 0; // Between bursts "    "
+
+    // Min readout time for 5 chips is about 4us
+    //  (5 * 60bits ... at 80Mbit?)
+
+    // Max (100% occ) is 250us? -> 4kHz
+
+    e->ConfigureVariable(10000 + 0x18, nt);
+    e->ConfigureVariable(10000 + 0x19, nb);
+    e->ConfigureVariable(10000 + 0x1a, rmin);
+    e->ConfigureVariable(10000 + 0x1b, rmax);
+    e->ConfigureVariable(10000 + 0x1c, inter);
+
+    e->burst_trtype = 100;
+    e->L1A_per_loop = (nt+1) * (nb+1);
+
+    // For ABC130, send L0 and L1
+    e->ConfigureVariable(10019, 0x400);
+
+    // Data gen doesn't make the right L0, so nothing to check
+    e->burst.pull_event_by_l0 = false;
+
+    e->burst_type = 100;
+    e->ExecuteBurst();
 }
