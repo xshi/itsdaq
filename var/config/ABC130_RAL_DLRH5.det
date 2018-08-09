@@ -1,0 +1,75 @@
+Module : Link0  Link1  Oddity Chipset DTM SCmode bpm_dr vdac0 vdac1
+           1      0     -1      7     1    0      3     512   512
+	 Select  Vdet  Idet  Vcc  Icc  Vdd  Idd  Vi1  iVi1 Vled0 Iled0 Vled1 Iled1 Vpin Ramp
+	    0    400.  1.  3.5 1000. 4.0  600.  0.  10.    6.   10.    6.   10.   6.   1
+
+		
+HCC 24
+# enable XOFF R2 & DATAIN R2 
+# R10 XOFF 0b|R2|100|L2|100|R1|100|L1|100|000|100
+#
+#   R0         R1         R2         R3
+    0x0007fec5 0xE0A18300 0x00000840 0x000ffC00
+#   R4         R5         R6         R7	
+	0x3ff003ff 0x000ffc00 0x3ff003ff 0x000ffc00
+#	R8         R9         R10        R11
+	0x00000000 0x39CE739C 0x00300004 0x01050402
+#	R12        R13        R14        R15
+	0x33333333 0x00781000 0xfff107ff 0xffffffff
+#	0x88008800 0x00781000 0xfff107ff 0xffffffff
+#	R16        R17
+	0x00000000 0x00000000 
+	
+#   R0         R1 (80MHz) R2         R3
+#	0x0007fec5 0xE0A18300 0x00000840 0x000ffC00 # Pll clock for BC_HYBRID
+#   R4         R5         R6         R7	
+#    0x3ff003ff 0x000ffc00 0x3ff003ff 0x000ffc00
+#   R8         R9         R10        R11
+#	0x00000000 0x39CE739C 0x00030334 0x01050402
+#   R12        R13        R14        R15
+#    0x33333333 0x00750505 0xfff107ff 0xffffffff
+#   R16        R17
+#    0x00000000 0x00000000 
+	
+
+#	
+# ABC130 direction 0 -> DATA L is output
+# ABC130 direction 1 -> DATA R is output
+
+#BJG Possible change
+#Taps 0 3 20 20
+#Taps 20 0
+
+Speed 80	
+#Taps 25 25
+#
+# LOOP 2 
+# NEAREST TO HCC
+#Chip 0 :  Act. Pri  Comp. T_range Mask_r Edge 1BC Direction DriveL DriveR DriveFC PackEnab
+#           1    4    0     14       0      0    0   1         4      4      0       15
+# U2 - no chip
+#Chip 1 :  Act. Pri  Comp. T_range Mask_r Edge 1BC Direction DriveL DriveR DriveFC PackEnab
+#           1    4    0     14       0      0    0   1         4      4      0       15
+# U3 - no chip
+#Chip 2 :  Act. Pri  Comp. T_range Mask_r Edge 1BC Direction DriveL DriveR DriveFC PackEnab
+#           1    4    0     14       0      0    0   1         4      4      0       15
+# U4 - no chip
+#Chip 3 :  Act. Pri  Comp. T_range Mask_r Edge 1BC Direction DriveL DriveR DriveFC PackEnab
+#           1    4    0     14       0      0    0   1         4      4      0       15
+
+# LOOP 1
+# U6 - DATA/XOFF R bonded to HCC DATA/XOFF (?) aka RIGHT2
+#    - disable thru as this is end of chain
+#    - chip is A6Q2XKH_034
+#
+Chip 25 :  Act. Pri  Comp. T_range Mask_r Edge 1BC Direction DriveL DriveR DriveFC PackEnab
+           1    0    0     14       0      0    0   1         4      4      0       15
+Delay: Delay DelStep VThr VCal CalPol Latency PreL0ID
+       17     3       72   34   0      1       0
+Bias : BVREF BIREF B8REF COMBIAS BIFEED BIPRE LDOD   LDOA
+       13    13    13    16       9      16    0x03ff  0x03ff
+#
+# U7 - no chip
+# U8 - no chip
+# U9  - no chip
+# U10 - no chip

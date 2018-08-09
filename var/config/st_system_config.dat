@@ -1,82 +1,176 @@
+
+
 	ST Configuration file: example 26.07.2002
 	=========================================
 
         This defines the mapping for connection to a module
         Lines that don't start "Module" are ignored
-        After the Module string there are a series of fields.
-        Depending on the number of numerical fields, these are
-        interpreted as follows:
-
-        18 numbers (old style):
+        After the Module string there are a series of fields
 
 	id         ID of module in map
-	pr         This module is present (usually 1)
-	ac         Active in scans
+        pr         This module is present (usually 1)
+        ac         Active in scans
 	LV cr      Crate in which to find LV 
 	LV ch      LV Channel within the crate
  	HV id      ID of HV card?
 	HV ch      Channel within HV card
-	SLOG id    ID of slog to use for transmission
-	SLOG clk0  Channel for clock 0    (data clock)
-	SLOG clk1  Channel for clock 1    (BC clock)
-	SLOG com0  Channel for command 0  (Command)
-	SLOG com1  Channel for command 1  (L1)
-	SLOG com2  Channel for command 2  (Reset)
-	Mus id     ID of MuSTARD to use for data reception
-	Mus s0     Stream in MuSTARD for column 0
-	Mus s1     Stream in MuSTARD for column 1
-	Mus d0     Delay in MuSTARD for column 0
-	Mus d1     Delay in MuSTARD for column 1
+        SLOG id    ID of slog to use for transmission
+        SLOG clk0  Channel for clock 0    (data clock)
+        SLOG clk1  Channel for clock 1    (BC clock)
+        SLOG com0  Channel for command 0  (Command)
+        SLOG com1  Channel for command 1  (L1)
+        SLOG com2  Channel for command 2  (Reset)
+        Mus id     ID of MuSTARD to use for data reception
+        Mus s0     Stream in MuSTARD for column 0
+        Mus s1     Stream in MuSTARD for column 1
+        Mus d0     Delay in MuSTARD for column 0
+        Mus d1     Delay in MuSTARD for column 1
 	FileName   Base of filename to find individual configuration (see below)
 	DevType    Type of device
 
-        8 numbers:
-
-	id         ID of module in map
-	pr         This module is present (usually 1)
-	ac         Active in scans
-	DAQ id     ID of DAQ card to use for transmission and reception of data
-	RX id 0    Identifies the stream to receive data for link 0
-	RX id 1    Identifies the stream to receive data for link 1
-	RX del 0   Fine stream delay for link 0
-	RX del 1   Fine stream delay for link 1
-
-	The module configuration is read from a file in the following order
+        The module configuration is read from a file in the following order
           sctdaq/config/$filename.det
           sctdaq/config/default$id.det
           sctdaq/config/default.det
 
-# The following line configures the ethernet connection to the HSIO board.
-# To use, remove the "#  " and change the number in {} to match the device
-# in the pcap error report on boot.
-#  DAQ pcap {3D38AF36-47F3-412E-8BD8-6A0A6FDDCD04} e0:dd:cc:bb:aa:00
-# The default on Linux is the equivalent of:
-#  DAQ file /tmp/hsioPipe.fromHsio /tmp/hsioPipe.toHsio
+
+# DAQ pcap {C931925B-CDA6-4412-9A63-00BC9A7E8383} e0:dd:cc:bb:aa:00 # Intel PRO/100 card (PCI)
+# DAQ pcap {F7714781-855A-4DA5-871F-E386881DC42B} e0:dd:cc:bb:aa:00 # Intel PRO/1000GT card (PCI)
+# DAQ pcap {F1E82D12-7AFA-407D-BB66-7FF195B85F4D} e0:dd:cc:bb:aa:00 	# Intel PRO/1000 PF  1GBit optical eth card on plejade01
+#DAQ pcap {18CF7C91-07BA-4B91-86AF-4193B7403D93} e0:dd:cc:bb:aa:00 	# RAL 058
+
+DAQ file /tmp/fromHsio /tmp/toHsio
 
         DETECTOR  LV     HV     SLOG                    MuSTARD         Module
         id pr ac  cr ch  id ch  id ck0 ck1 cm0 cm1 cm2  id s0 s1 d0 d1  Filename       Device Type
         --------------------------------------------------------------------------------
-# Hybrid
-#Module  0  1  1   0  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  ABCNx20_1 ABCN_Test
-#Module  0  1  1   -1  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  FPGAChip ABCN_Test
 
-# Single chip test board 1
-#Module  0  1  1   -1  0  -1  0   0   0   1   1   0   3   0  0  1 20 20  ABCNx1_01 ABCN_Test
-# Single chip test board 1
-#Module  1  1  1   -1  0  -1  0   0   4   5   4   7   5   0  4  5 22 22  ABCNx1_01 ABCN_Test
-  
-#  Module  1  1  1   -1  1  -1  1   0   2   3   2   3   7   0  0  1 20 20  20220170112345 ABCN_Test
-#  Module  2  1  1   -1  2  -1  2   0   4   5   4   5   8   0  0  1 20 20  20220170112345 ABCN_Test
+		## Test El_Petl_upmod_07 @ J37
+#Module  0  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  0 2 32 32 El_Petl_upmod_07 ABCN_Test
+#Module  0  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  0 2 32 32 El_Petl_upmod_09 ABCN_Test
+#Module  1  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  131 129 32 32 El_Petl_upmod_07 ABCN_Test
 
-# SEU hybrid with ATLYS
-Module   0	1  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2 3  25  25  ABC130_HCC_SEU ABC130_Test
+# DESY module for Diamond
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50  50  ABC130_HCC_DESY1 ABC130_Test
 
-# ABC130 Wafer Probe (ATLYS)
-Module   0	1	  1   -1 -1  -1  0   0   0   1   1   0   3   0  8  2  40  0  ABC130_DUT ABC130_Test
+# DAQ loads - released
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50  50  ABC130_RAL_DLLH1 ABC130_Test
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50  50  ABC130_RAL_DLLH2 ABC130_Test
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50  50  ABC130_RAL_DLLH3 ABC130_Test
+#Module  		   0	1	  	1   -1 -1   0  0   0   0   1   1   0   3   0  0  1  50  50  ABC130_RAL_DLRH2 ABC130_Test
 
-        DETECTOR  MuSTARD         Module
-        id pr ac  id s0 s1 d0 d1  Filename       Device Type
-        ----------------------------------------------------
-Module   0  1  1   0  2  3 25 25  ABC130_HCC_SEU ABC130_Test
+# for IDC - vb192
+#Module  		   0	1	  	1   -1 -1   0  0   0   0   1   1   0   3   0  128  129  50  50  ABC130_RAL_DLRH5 ABC130_Test
 
+# for SAMTEC
+#SLVDS
+#Module  		   0	1	  	1   -1 -1   0  0   0   0   1   1   0   3   0  1  0  50  50  ABC130_RAL_DLRH5 ABC130_Test
+#MLVDS
+Module  		   0	1	  	1   -1 -1   0  0   0   0   1   1   0   3   0  1  0  50  50  ABC130_RAL_DLRH5 ABC130_Test
+
+# DAQ loads - with ugly HCC fix (no sensor)
+#Module  		   0	1	  	1   -1 -1   0  0   0   0   1   1   0   3   0  0  1  50  50  ABC130_RAL_DLRH4 ABC130_Test
+
+# SINGLE CHIPS
+#Module  0  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  8  -1  20  20  ABC130_A6Q2XKH_133 ABC130_Test
+#Module  0  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  8  -1  20  20  ABC130_AQQ30GH_something ABC130_Test
+
+# EC DAQ loads
+#Module 0 1 1 -1 -1 -1 0 0 0 1 1 0 3 0 2 3 30 30 ABC130_R0H1_daqload_irrad_1 ABC130_Test
+
+# DAQ loads - final testing
+
+# RAL_LS1
+#Module  0  1  1   -1 -1  0  0   0   0   1   1   0   3   0  1  0  32  32  ABC130_RAL_LS1 ABC130_Test
+#Module  0  1  1   -1 -1  0  0   0   0   1   1   0   3   0  129  128  32  32  ABC130_RAL_LS1 ABC130_Test
+
+# RAL_LS2
+#Module  0  1  1   -1 -1  0  0   0   0   1   1   0   3   0 1 0 50 50  ABC130_LS2 ABC130_Test
+
+# RAL_SS1
+#Module  0  1  1   -1 -1  0 0   0   0   1   1   0   3   0  3  2  50  50  ABC130_Liverpool1 ABC130_Test
+#Module  1  1  1   -1 -1  0 0   0   0   1   1   0   3   0  0  1  50  50  ABC130_RAL_SS_R1 ABC130_Test
+
+# RAL_LS3
+#Module  0  1  1   -1 -1  0  0   0   0   1   1   0   3   0 0 1 50 50  ABC130_LS3 ABC130_Test
+
+# RAL_LS4
+#Module  0  1  1   -1 -1  0  0   0   0   1   1   0   3   0 1 0 50 50  ABC130_LS4 ABC130_Test
+
+# RAL_SS2
+#Module  0  1  1   -1 -1  0   0   0   0   1   1   0   3   0  3  -1  50  50  ABC130_RAL_SS2_LH ABC130_Test
+#Module  0  1  1   -1 -1  0   0   0   0   1   1   0   3   0  3  -1  50  50  ABC130_RAL_SS2_RH ABC130_Test
+
+# RAL_SS2
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_SS2_h0  ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50 50  ABC130_SS2_h1 ABC130_Test
+
+# R0H1 ABC130 DAQload#7 with mini sensor from Freiburg
+#Module 0 1 1 -1 -1 -1 0 0 0 1 1 0 3 0 3 2 32 32 ABC130_R0H1_daqload_07s ABC130_Test
+
+# full travelling DAQ load
+#Module  0  1  1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  32  32  ABC130_R0H1_1s ABC130_Test
+
+# RAL_SS3
+#Module 0    1       1   -1 -1  0   0   0   0   1   1   0   3   0  3  -1  50  50  ABC130_RAL_SS3_LH ABC130_Test
+
+# hybrid panel VII
+#Module  0  1  1   -1 -1  0 0   0   0   1   1   0   3   0  0  1  32  32 ABC130_hybrid_00 ABC130_Test
+#Module  0  1  1   -1 -1  0 0   0   0   1   1   0   3   0  2  3  32  32 ABC130_hybrid_01 ABC130_Test
+#Module  0  1  1   -1 -1  0 0   0   0   1   1   0   3   0 12  13  50  50  ABC130_hybrid_06 ABC130_Test
+#Module  0  1  1   -1 -1  0 0   0   0   1   1   0   3   0 14  15  50  50  ABC130_hybrid_07 ABC130_Test
+
+# Hybrid Panel VII Testing - configs from Ash
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Panel_VII_Hybrid0_HCC21 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Panel_VII_Hybrid1_HCC20 ABC130_Test
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  5  4  50 50  ABC130_Panel_VII_Hybrid2_HCC19 ABC130_Test
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  7  6  50 50  ABC130_Panel_VII_Hybrid3_HCC18 ABC130_Test
+#Module  		   2	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  9  8  50 50  ABC130_Panel_VII_Hybrid4_HCC17 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  11  10  50 50  ABC130_Panel_VII_Hybrid5_HCC16 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  13  12  50 50  ABC130_Panel_VII_Hybrid6_HCC15 ABC130_Test
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  15  14  50 50  ABC130_Panel_VII_Hybrid7_HCC14 ABC130_Test
+
+#RAL_SS4  using SLVS buffer & module adaptor (first guess by Peter)
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Panel_VII_Hybrid6_HCC15 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Panel_VII_Hybrid1_HCC20 ABC130_Test
+
+#RAL_SS5  using SLVS buffer & module adaptor (first guess by Peter)
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  0  1  50 50  ABC130_Panel_VII_Hybrid7_HCC14 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50 50  ABC130_Panel_VII_Hybrid0_HCC21 ABC130_Test
+
+#RAL_SS6  using SLVS buffer & module adaptor (first guess by Peter)
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  0  1  50 50  ABC130_Panel_VII_Hybrid5_HCC16 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50 50  ABC130_Panel_VII_Hybrid2_HCC19 ABC130_Test
+
+#RAL_SS7
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Panel_VII_Hybrid4_HCC17 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Panel_VII_Hybrid3_HCC18 ABC130_Test
+
+#LIVERPOOL W682
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Liverpool_W682_HCC9 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Liverpool_W682_HCC10 ABC130_Test
+
+#LIVERPOOL W683
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Liverpool_W683_HCC7  ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Liverpool_W683_HCC12 ABC130_Test
+
+#LIVERPOOL W668
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Liverpool_W668_HCC6  ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Liverpool_W668_HCC13 ABC130_Test
+
+#LIVERPOOL W680
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  1  0  50 50  ABC130_Liverpool_W680_HCC8  ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Liverpool_W680_HCC11 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  3  2  50 50  ABC130_Panel_D_Hybrid2_HCC11 ABC130_Test
+
+# Hybrid Panel I Testing - vb199
+
+#Module  		   0	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  0  1  50 50  ABC130_Panel_I_Hybrid0_HCC21 ABC130_Test
+#Module  		   1	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  2  3  50 50  ABC130_Panel_I_Hybrid1_HCC20 ABC130_Test
+#Module  		   2	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  4  5  50 50  ABC130_Panel_I_Hybrid2_HCC19 ABC130_Test
+#Module  		   3	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  6  7  50 50  ABC130_Panel_I_Hybrid3_HCC18 ABC130_Test
+#Module  		   4	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  8  9  50 50  ABC130_Panel_I_Hybrid4_HCC17 ABC130_Test
+#Module  		   5	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  10 11  0 0  ABC130_Panel_I_Hybrid5_HCC16 ABC130_Test
+#Module  		   6	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  12 13  0 0  ABC130_Panel_I_Hybrid6_HCC15 ABC130_Test
+#Module  		   7	1	  	1   -1 -1  -1  0   0   0   1   1   0   3   0  14 15  0 0  ABC130_Panel_I_Hybrid7_HCC14 ABC130_Test
 /*END*/

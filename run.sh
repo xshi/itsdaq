@@ -11,6 +11,8 @@ usage() {
     printf "\n\n" 
 }
 
-. $SCTDAQ_ROOT/RUNITSDAQ.sh 
+
+cd $SCTDAQ_ROOT
+. RUNITSDAQ.sh 
 
 

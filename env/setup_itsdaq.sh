@@ -18,6 +18,6 @@ export BOOSTDIR=$LCG_PATH/Boost/1.55.0_python2.7/x86_64-slc6-gcc49-opt/include/b
 export SCTDAQ_ROOT=/opt/itsdaq/itsdaq_git_170825
 
 #export SCTDAQ_VAR=/data/sctvar/
-# Need absoute path for SCTDAQ_VAR 
 export SCTDAQ_VAR=$HOME/atlas/itsdaq/var   
+#export SCTDAQ_VAR=/home/ppd/okh58562/atlas/itsdaq/var
 mkdir -p ${SCTDAQ_VAR}/etc ${SCTDAQ_VAR}/data ${SCTDAQ_VAR}/ps ${SCTDAQ_VAR}/results

@@ -27,9 +27,11 @@ fi
 case $option in 
     1) echo "Setting up DAQLoad RAL_DLRH5 on RAL-HEPLNW0185 ..." 
     # validate the sudo first
-    sudo -v 
-	sudo bash ./env/runHSIOPipe.sh & 
-	source ./env/setup_itsdaq.sh 
+   	sudo -v 
+	cd /opt/itsdaq/
+	sudo ./runHSIOPipe.sh &
+	cd -  
+	source ./env/setup_itsdaq.sh
 ;;
 
 esac
