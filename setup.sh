@@ -10,7 +10,7 @@ usage() {
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./setup.sh [OPTION]" 
     printf "\nOPTIONS\n" 
-    printf "\n\t%-5s  %-40s\n"  "1"  "DAQLoad at RAL on HEPLNW0195" 
+    printf "\n\t%-5s  %-40s\n"  "1"  "DAQLoad RAL_DLRH5 on RAL-HEPLNW0185" 
 
     printf "\n\n" 
 }
@@ -25,7 +25,9 @@ fi
 
 
 case $option in 
-    1) echo "Setting up DAQLoad at RAL with HEPLNW0195 ..." 
+    1) echo "Setting up DAQLoad RAL_DLRH5 on RAL-HEPLNW0185 ..." 
+    # validate the sudo first
+    sudo -v 
 	sudo bash ./env/runHSIOPipe.sh & 
 	source ./env/setup_itsdaq.sh 
 ;;

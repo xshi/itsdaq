@@ -14,10 +14,10 @@ source $LCG_PATH/gcc/4.9.3/x86_64-slc6/setup.sh
 source $LCG_PATH/ROOT/5.34.25/x86_64-slc6-gcc49-opt/bin/thisroot.sh
 export BOOSTDIR=$LCG_PATH/Boost/1.55.0_python2.7/x86_64-slc6-gcc49-opt/include/boost-1_55
 
-export SCTDAQ_ROOT=/opt/itsdaq/itsdaq_svn_170825
+#export SCTDAQ_ROOT=/opt/itsdaq/itsdaq_svn_170825
+export SCTDAQ_ROOT=/opt/itsdaq/itsdaq_git_170825
+
 #export SCTDAQ_VAR=/data/sctvar/
 # Need absoute path for SCTDAQ_VAR 
-export SCTDAQ_VAR=$HOME/atlas/itsdaq/sctvar   
-#mkdir -p ${SCTDAQ_VAR}/etc 
-mkdir -p ${SCTDAQ_VAR}/data ${SCTDAQ_VAR}/ps ${SCTDAQ_VAR}/results
-
+export SCTDAQ_VAR=$HOME/atlas/itsdaq/var   
+mkdir -p ${SCTDAQ_VAR}/etc ${SCTDAQ_VAR}/data ${SCTDAQ_VAR}/ps ${SCTDAQ_VAR}/results
